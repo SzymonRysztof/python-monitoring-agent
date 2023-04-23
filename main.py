@@ -2,7 +2,7 @@
 
 
 def main():
-    import logging, os, json, metrics, time, sys
+    import logging, os, json, metrics, time, sys, influx_writer
     from dotenv import load_dotenv
     load_dotenv()
 
@@ -32,7 +32,8 @@ def main():
     
     # Main loop
     while True:
-        local_metrics = metrics.metrics,
+        local_metrics = metrics.metrics
+        influx_writer.main(data=local_metrics)
         logging.debug("Values: " + json.dumps(local_metrics, indent =4))
         time.sleep(pooling_rate)
         
