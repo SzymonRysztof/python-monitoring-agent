@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import logging
-from os import getenv
+from os import getenv, uname
 from dotenv import load_dotenv
 import errno
 import os
@@ -18,6 +18,15 @@ class Config:
     except AttributeError as e:
         logger.error('Environment variable not set: '+str(e))  
         raise AttributeError("All environment variables from .env.dist should be present and set")
+    
+    try:
+        hostname = str(getenv('hostname').strip())
+    except Exception as e:
+        hostname = uname()[1]
+        logger.error('Environment variable not set: '+str(e))
+        
+    if hostname == "":
+        hostname = uname()[1]
     
         
     if "" in [influx_url, influx_bucket, influx_org, influx_token]:
