@@ -6,6 +6,7 @@ logger = logging.getLogger(__name__)
 def get():
     partitions = psutil.disk_partitions()
     disks = {}
+    disks_tmp = {}
     for part in partitions:
         if part.mountpoint:
             df = psutil.disk_usage(part.mountpoint)
@@ -19,7 +20,8 @@ def get():
                     "free_space": df.free
                 }
             }
-        disks.update(tmp)
+        disks_tmp.update(tmp)
+    disks = {"disks": disks_tmp}
     return disks
 
 def metrics():
