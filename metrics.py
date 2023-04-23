@@ -1,6 +1,4 @@
 #!/usr/bin/env python3 
-import os, psutil
-from config import Config
 import logging
 logger = logging.getLogger(__name__)
 

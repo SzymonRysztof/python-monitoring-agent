@@ -18,7 +18,6 @@ def main():
     
     verbosities = {"CRITICAL": 50, "ERROR": 40, "WARNING": 30, "INFO": 20, "DEBUG": 10, 'NOTSET': 0}
     
-    home = os.path.expanduser('~')
     logging.basicConfig(handlers=[logging.StreamHandler(sys.stdout)],
                         format='%(levelname)s: %(message)s',
                         datefmt='%F %A %T',
