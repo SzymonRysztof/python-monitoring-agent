@@ -1,9 +1,12 @@
 #!/usr/bin/env python3 
 import os, psutil
 import logging
+from time import sleep
 logger = logging.getLogger(__name__)
 
 def get():
+    #Sleeping here to make sure that CPU frequency is not altered by fact of running this tool
+    sleep(5)
     cpu = {}
     
     try:
