@@ -1,36 +1,86 @@
-#!/usr/bin/env python3 
+#!/usr/bin/env python3
 import psutil
 import logging
 logger = logging.getLogger(__name__)
 
 def get():
     memory = {}
-    ram = psutil.virtual_memory()
     ram_dict = {
-        "ram": {
-            "total": ram.total,
-            "used": ram.used,
-            "free": ram.free,
-            "cached": ram.cached,
-            "buffers": ram.buffers,
-            "percent": ram.percent
-        }
+        "ram": {}
     }
-    memory.update(ram_dict)
 
-    
-    swap = psutil.swap_memory()
+    ram = psutil.virtual_memory()
+
+    try:
+        ram_dict["ram"]["total"] = ram.total
+    except Exception as e:
+        ram_dict["ram"]["total"] = None
+        logging.exception(f"Error occurred while accessing ram.total: {e}")
+
+    try:
+        ram_dict["ram"]["used"] = ram.used
+    except Exception as e:
+        ram_dict["ram"]["used"] = None
+        logging.exception(f"Error occurred while accessing ram.used: {e}")
+
+    try:
+        ram_dict["ram"]["free"] = ram.free
+    except Exception as e:
+        ram_dict["ram"]["free"] = None
+        logging.exception(f"Error occurred while accessing ram.free: {e}")
+
+    try:
+        ram_dict["ram"]["cached"] = ram.cached
+    except Exception as e:
+        ram_dict["ram"]["cached"] = None
+        logging.exception(f"Error occurred while accessing ram.cached: {e}")
+
+    try:
+        ram_dict["ram"]["buffers"] = ram.buffers
+    except Exception as e:
+        ram_dict["ram"]["buffers"] = None
+        logging.exception(f"Error occurred while accessing ram.buffers: {e}")
+
+    try:
+        ram_dict["ram"]["percent"] = ram.percent
+    except Exception as e:
+        ram_dict["ram"]["percent"] = None
+        logging.exception(f"Error occurred while accessing ram.percent: {e}")
+        memory.update(ram_dict)
+
     swap_dict = {
-        "swap": {
-            "total": swap.total,
-            "used": swap.used,
-            "free": swap.free,
-            "percent": swap.percent
-        }
+        "swap": {}
     }
+
+    swap = psutil.swap_memory()
+
+    try:
+        swap_dict["swap"]["total"] = swap.total
+    except Exception as e:
+        swap_dict["swap"]["total"] = None
+        logging.exception(f"Error occurred while accessing swap.total: {e}")
+
+    try:
+        swap_dict["swap"]["used"] = swap.used
+    except Exception as e:
+        swap_dict["swap"]["used"] = None
+        logging.exception(f"Error occurred while accessing swap.used: {e}")
+
+    try:
+        swap_dict["swap"]["free"] = swap.free
+    except Exception as e:
+        swap_dict["swap"]["free"] = None
+        logging.exception(f"Error occurred while accessing swap.free: {e}")
+
+    try:
+        swap_dict["swap"]["percent"] = swap.percent
+    except Exception as e:
+        swap_dict["swap"]["percent"] = None
+        logging.exception(f"Error occurred while accessing swap.percent: {e}")
+
     memory.update(swap_dict)
-    
+
     return memory
-    
+
 def metrics():
     return get()
