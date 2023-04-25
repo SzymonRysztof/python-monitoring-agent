@@ -1,10 +1,10 @@
-#!/usr/bin/env python3 
+#!/usr/bin/env python3
 import logging
 logger = logging.getLogger(__name__)
 
 
 # Import modules used for fetching metrics
-import disks, cpu, memory
+import disks, cpu, memory, net_interfaces
 
 metrics = {}
 
@@ -12,3 +12,4 @@ metrics = {}
 metrics.update(disks.metrics())
 metrics.update(cpu.metrics())
 metrics.update(memory.metrics())
+metrics.update(net_interfaces.metrics())
