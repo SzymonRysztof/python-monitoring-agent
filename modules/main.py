@@ -17,7 +17,6 @@ def main():
         raise ValueError(f'Verbosity must be one of {str(allowed_verbosity)}')
 
     verbosities = {"CRITICAL": 50, "ERROR": 40, "WARNING": 30, "INFO": 20, "DEBUG": 10, 'NOTSET': 0}
-
     logging.basicConfig(handlers=[logging.StreamHandler(sys.stdout)],
                         format='%(levelname)s: %(message)s',
                         datefmt='%F %A %T',

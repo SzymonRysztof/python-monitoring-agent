@@ -11,14 +11,15 @@ logger = logging.getLogger(__name__)
 def main(data):
     data = json.loads(json.dumps(data, indent=4))
 
-    writer('disks', data)
-    writer('cpu', data)
-    writer('ram', data)
-    writer('swap', data)
+    metrics = ['disks', 'cpu', 'ram', 'swap', 'net_interfaces']
+    for metric in metrics:
+        writer(metric, data)
 
 
 def writer(metric, data):
-    if metric == 'disks':
+    print(metric)
+    nested_metrics = ['disks', 'net_interfaces']
+    if metric in nested_metrics:
         for keys, values in data[metric].items():
             point = Point(keys)
             point.tag("Metric", metric)
