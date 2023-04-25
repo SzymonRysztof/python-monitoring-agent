@@ -12,7 +12,11 @@ def get():
 
     cores = psutil.cpu_count()
     times = psutil.cpu_times()
-    frequency = psutil.cpu_freq()
+    try:
+        frequency = psutil.cpu_freq()
+    except Exception as e:
+        logging.warning(f"Error occurred while accessing cpu_freq: {e}")
+        frequency = None
     load = psutil.getloadavg()
 
     cpu = {
@@ -23,79 +27,79 @@ def get():
         cpu['cpu']['user'] = times.user
     except Exception as e:
         cpu['cpu']['user'] = None
-        logging.exception(f"Error occurred while accessing times.user: {e}")
+        logging.warning(f"Error occurred while accessing times.user: {e}")
 
     try:
         cpu['cpu']['system'] = times.system
     except Exception as e:
         cpu['cpu']['system'] = None
-        logging.exception(f"Error occurred while accessing times.system: {e}")
+        logging.warning(f"Error occurred while accessing times.system: {e}")
 
     try:
         cpu['cpu']['idle'] = times.idle
     except Exception as e:
         cpu['cpu']['idle'] = None
-        logging.exception(f"Error occurred while accessing times.idle: {e}")
+        logging.warning(f"Error occurred while accessing times.idle: {e}")
 
     try:
         cpu['cpu']['iowait'] = times.iowait
     except Exception as e:
         cpu['cpu']['iowait'] = None
-        logging.exception(f"Error occurred while accessing times.iowait: {e}")
+        logging.warning(f"Error occurred while accessing times.iowait: {e}")
 
     try:
         cpu['cpu']['current'] = float(frequency.current)
     except Exception as e:
         cpu['cpu']['current'] = None
-        logging.exception(f"Error occurred while accessing frequency.current: {e}")
+        logging.warning(f"Error occurred while accessing frequency.current: {e}")
 
     try:
         cpu['cpu']['max'] = float(frequency.max)
     except Exception as e:
         cpu['cpu']['max'] = None
-        logging.exception(f"Error occurred while accessing frequency.max: {e}")
+        logging.warning(f"Error occurred while accessing frequency.max: {e}")
 
     try:
         cpu['cpu']['min'] = float(frequency.min)
     except Exception as e:
         cpu['cpu']['min'] = None
-        logging.exception(f"Error occurred while accessing frequency.min: {e}")
+        logging.warning(f"Error occurred while accessing frequency.min: {e}")
 
     try:
         cpu['cpu']['1m'] = load[0] * cores
     except Exception as e:
         cpu['cpu']['1m'] = None
-        logging.exception(f"Error occurred while accessing load[0]: {e}")
+        logging.warning(f"Error occurred while accessing load[0]: {e}")
 
     try:
         cpu['cpu']['5m'] = load[1] * cores
     except Exception as e:
         cpu['cpu']['5m'] = None
-        logging.exception(f"Error occurred while accessing load[1]: {e}")
+        logging.warning(f"Error occurred while accessing load[1]: {e}")
 
     try:
         cpu['cpu']['15m'] = load[2] * cores
     except Exception as e:
         cpu['cpu']['15m'] = None
-        logging.exception(f"Error occurred while accessing load[2]: {e}")
+        logging.warning(f"Error occurred while accessing load[2]: {e}")
 
     try:
         cpu['cpu']['utilization'] = psutil.cpu_percent(interval=1)
     except Exception as e:
         cpu['cpu']['utilization'] = None
-        logging.exception(f"Error occurred while accessing psutil.cpu_percent: {e}")
+        logging.warning(f"Error occurred while accessing psutil.cpu_percent: {e}")
 
     try:
         cpu['cpu']['temperature'] = float(os.popen('vcgencmd measure_temp').read().split('=')[1].strip().strip('C').strip('\''))
     except Exception as e:
         cpu['cpu']['temperature'] = None
-        logging.exception(f"Error occurred while accessing temperature: {e}")
+        logging.warning(f"Error occurred while accessing temperature: {e}")
 
     try:
         cpu['cpu']['processors'] = cores
     except Exception as e:
         cpu['cpu']['processors'] = None
-        logging.exception(f"Error occurred while accessing cores: {e}")
+        logging.warning(f"Error occurred while accessing cores: {e}")
 
     return cpu
 
