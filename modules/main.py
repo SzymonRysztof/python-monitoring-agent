@@ -31,7 +31,7 @@ def main():
 
     # Main loop
     while True:
-        local_metrics = metrics.metrics
+        local_metrics = metrics.get_metrics()
         logging.debug("Values: " + json.dumps(local_metrics, indent =4))
         influx_writer.main(data=local_metrics)
         time.sleep(pooling_rate)
