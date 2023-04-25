@@ -1,0 +1,10 @@
+---
+version: "3"
+
+services:
+
+  agent:
+    build: .
+    restart: unless-stopped
+    env_file:
+      - .env

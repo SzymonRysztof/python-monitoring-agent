@@ -48,6 +48,8 @@ def get():
         logging.exception(f"Error occurred while accessing ram.percent: {e}")
         memory.update(ram_dict)
 
+    memory.update(ram_dict)
+
     swap_dict = {
         "swap": {}
     }

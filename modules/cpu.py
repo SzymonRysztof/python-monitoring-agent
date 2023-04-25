@@ -44,19 +44,19 @@ def get():
         logging.exception(f"Error occurred while accessing times.iowait: {e}")
 
     try:
-        cpu['cpu']['current'] = frequency.current
+        cpu['cpu']['current'] = float(frequency.current)
     except Exception as e:
         cpu['cpu']['current'] = None
         logging.exception(f"Error occurred while accessing frequency.current: {e}")
 
     try:
-        cpu['cpu']['max'] = frequency.max
+        cpu['cpu']['max'] = float(frequency.max)
     except Exception as e:
         cpu['cpu']['max'] = None
         logging.exception(f"Error occurred while accessing frequency.max: {e}")
 
     try:
-        cpu['cpu']['min'] = frequency.min
+        cpu['cpu']['min'] = float(frequency.min)
     except Exception as e:
         cpu['cpu']['min'] = None
         logging.exception(f"Error occurred while accessing frequency.min: {e}")
