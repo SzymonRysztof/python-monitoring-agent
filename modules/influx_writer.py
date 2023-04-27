@@ -26,7 +26,7 @@ def writer(metric, data):
             with InfluxDBClient(url=Config.influx_url, token=Config.influx_token, org=Config.influx_org) as client:
                 with client.write_api(write_options=SYNCHRONOUS) as writer:
                     try:
-                        logging.critical(point)
+                        logging.info(point)
                         writer.write(bucket=Config.influx_bucket, record=[point])
                     except InfluxDBError as e:
                         logging.warning(f"Error while writing to influxdb: {e}")
@@ -39,7 +39,7 @@ def writer(metric, data):
         with InfluxDBClient(url=Config.influx_url, token=Config.influx_token, org=Config.influx_org) as client:
             with client.write_api(write_options=SYNCHRONOUS) as writer:
                 try:
-                    logging.critical(point)
+                    logging.info(point)
                     writer.write(bucket=Config.influx_bucket, record=[point])
                 except InfluxDBError as e:
                     logging.warning(f"Error while writing to influxdb: {e}")
