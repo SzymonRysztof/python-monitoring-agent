@@ -10,14 +10,12 @@ RUN apk --no-cache add git gcc python3-dev build-base linux-headers \
 
 WORKDIR /app
 
-COPY modules /app/modules
-
-COPY requirements.txt /app/
+COPY app /app
 
 RUN chown -R ${user}:${user} /app
 
 USER ${user}
 
-RUN python3 -m pip install --no-cache-dir --upgrade -r requirements.txt && chmod +x /app/modules/main.py
+RUN python3 -m pip install --no-cache-dir --upgrade -r requirements.txt && chmod +x /app/main.py
 
-ENTRYPOINT ["/app/modules/main.py"]
+ENTRYPOINT ["/app/main.py"]

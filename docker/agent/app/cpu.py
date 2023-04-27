@@ -2,11 +2,12 @@
 import os, psutil
 import logging
 from time import sleep
+
 logger = logging.getLogger(__name__)
 
 
 def get():
-    #Sleeping here to make sure that CPU frequency is not altered by fact of running this tool
+    # Sleeping here to make sure that CPU frequency is not altered by fact of running this tool
     sleep(5)
     cpu = {}
 
@@ -90,7 +91,8 @@ def get():
         logging.warning(f"Error occurred while accessing psutil.cpu_percent: {e}")
 
     try:
-        cpu['cpu']['temperature'] = float(os.popen('vcgencmd measure_temp').read().split('=')[1].strip().strip('C').strip('\''))
+        cpu['cpu']['temperature'] = float(
+            os.popen('vcgencmd measure_temp').read().split('=')[1].strip().strip('C').strip('\''))
     except Exception as e:
         cpu['cpu']['temperature'] = None
         logging.warning(f"Error occurred while accessing temperature: {e}")
@@ -102,6 +104,7 @@ def get():
         logging.warning(f"Error occurred while accessing cores: {e}")
 
     return cpu
+
 
 def metrics():
     return get()

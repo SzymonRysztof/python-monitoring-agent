@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 import psutil
 import logging
+
 logger = logging.getLogger(__name__)
+
 
 def get():
     memory = {}
@@ -83,6 +85,7 @@ def get():
     memory.update(swap_dict)
 
     return memory
+
 
 def metrics():
     return get()

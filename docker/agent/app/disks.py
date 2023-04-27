@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 import psutil
 import logging
+
 logger = logging.getLogger(__name__)
+
 
 def get():
     partitions = psutil.disk_partitions()
     disks = {}
     disks_tmp = {}
+    tmp = {}
     for part in partitions:
         if part.mountpoint:
             df = psutil.disk_usage(part.mountpoint)
@@ -53,6 +56,7 @@ def get():
         disks_tmp.update(tmp)
     disks = {'disks': disks_tmp}
     return disks
+
 
 def metrics():
     return get()

@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 import psutil
 import logging
+
 logger = logging.getLogger(__name__)
+
 
 def get():
     interfaces = psutil.net_io_counters(pernic=True, nowrap=True)
     net_interfaces = {}
     network_tmp = {}
+    tmp = {}
     for iname in interfaces:
         if interfaces[iname]:
             interface = f'network.net_{iname}'
@@ -68,6 +71,6 @@ def get():
     net_interfaces = {'net_interfaces': network_tmp}
     return net_interfaces
 
+
 def metrics():
     return get()
-

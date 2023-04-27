@@ -4,6 +4,7 @@ import json
 from influxdb_client.client.write_api import SYNCHRONOUS
 from influxdb_client import InfluxDBClient, Point
 from config import Config
+
 logger = logging.getLogger(__name__)
 
 
@@ -13,6 +14,7 @@ def main(data):
     metrics = ['disks', 'cpu', 'ram', 'swap', 'net_interfaces']
     for metric in metrics:
         writer(metric, data)
+
 
 def writer(metric, data):
     nested_metrics = ['disks', 'net_interfaces']
@@ -28,7 +30,7 @@ def writer(metric, data):
                     try:
                         logging.info(point)
                         writer.write(bucket=Config.influx_bucket, record=[point])
-                    except InfluxDBError as e:
+                    except Exception as e:
                         logging.warning(f"Error while writing to influxdb: {e}")
     else:
         point = Point(metric)
@@ -41,5 +43,5 @@ def writer(metric, data):
                 try:
                     logging.info(point)
                     writer.write(bucket=Config.influx_bucket, record=[point])
-                except InfluxDBError as e:
+                except Exception as e:
                     logging.warning(f"Error while writing to influxdb: {e}")

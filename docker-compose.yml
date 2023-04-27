@@ -4,7 +4,27 @@ version: "3"
 services:
 
   agent:
-    build: .
+    build:
+      context: ./docker/agent/
     restart: unless-stopped
+    env_file:
+      - .env
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - '127.0.0.1:3000:3000' # Publishing grafana without reverse proxy in front is not advised.
+    volumes:
+      - ./docker/grafana:/var/lib/grafana
+    env_file:
+      - .env
+
+  influxdb:
+    image: influxdb:latest
+    ports:
+      - '127.0.0.1:8086:8086'
+    volumes:
+      - ./docker/influxdb/data:/var/lib/influxdb2
+      - ./docker/influxdb/config:/etc/influxdb2
     env_file:
       - .env
