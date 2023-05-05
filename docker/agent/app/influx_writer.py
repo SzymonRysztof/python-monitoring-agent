@@ -6,6 +6,7 @@ from influxdb_client import InfluxDBClient, Point
 from config import Config
 
 logger = logging.getLogger(__name__)
+config = Config()
 
 
 def main(data):
@@ -13,35 +14,35 @@ def main(data):
 
     metrics = ['disks', 'cpu', 'ram', 'swap', 'net_interfaces']
     for metric in metrics:
-        writer(metric, data)
+        write(metric, data)
 
 
-def writer(metric, data):
+def write(metric, data):
     nested_metrics = ['disks', 'net_interfaces']
     if metric in nested_metrics:
         for keys, values in data[metric].items():
             point = Point(keys)
             point.tag("Metric", metric)
-            point.tag("Hostname", Config.hostname)
+            point.tag("Hostname", config.agent_hostname)
             for key, value in values.items():
                 point.field(key, value)
-            with InfluxDBClient(url=Config.influx_url, token=Config.influx_token, org=Config.influx_org) as client:
+            with InfluxDBClient(url=config.agent_influx_url, token=config.agent_influx_token, org=config.agent_influx_org) as client:
                 with client.write_api(write_options=SYNCHRONOUS) as writer:
                     try:
-                        logging.info(point)
-                        writer.write(bucket=Config.influx_bucket, record=[point])
+                        logger.info(point)
+                        writer.write(bucket=config.agent_influx_bucket, record=[point])
                     except Exception as e:
-                        logging.warning(f"Error while writing to influxdb: {e}")
+                        logger.warning(f"Error while writing to influxdb: {e}")
     else:
         point = Point(metric)
         point.tag("Metric", metric)
-        point.tag("Hostname", Config.hostname)
+        point.tag("Hostname", config.agent_hostname)
         for key, value in data[metric].items():
             point.field(key, value)
-        with InfluxDBClient(url=Config.influx_url, token=Config.influx_token, org=Config.influx_org) as client:
+        with InfluxDBClient(url=config.agent_influx_url, token=config.agent_influx_token, org=config.agent_influx_org) as client:
             with client.write_api(write_options=SYNCHRONOUS) as writer:
                 try:
-                    logging.info(point)
-                    writer.write(bucket=Config.influx_bucket, record=[point])
+                    logger.info(point)
+                    writer.write(bucket=config.agent_influx_bucket, record=[point])
                 except Exception as e:
-                    logging.warning(f"Error while writing to influxdb: {e}")
+                    logger.warning(f"Error while writing to influxdb: {e}")
