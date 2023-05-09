@@ -24,8 +24,9 @@ jobs:
     
     - name: 'Build Inventory Image'
       run: |
+       echo test
        echo ${{github.actor}}
-       export tag=$(date +%d-%m-%Y-%H%M)
+       export tag=$(date +%d%m%Y%H%M)
        docker build ./docker/agent --tag python-monitoring-agent:$tag
        docker tag python-monitoring-agent:$tag python-monitoring-agent:latest
        docker push ghcr.io/${{github.actor}}/python-monitoring-agent:$tag
