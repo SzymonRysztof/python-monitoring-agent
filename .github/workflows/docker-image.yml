@@ -2,9 +2,9 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "develop" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master", "develop" ]
 
 jobs:
 
@@ -24,12 +24,13 @@ jobs:
     
     - name: 'Build Inventory Image'
       run: |
-       echo test
-       echo ${{github.actor}}
+       username=${{github.actor}}
+       export username="$username | awk '{print tolower($0)}'"
+       export reponame=$(basename $(pwd))
        export tag=$(date +%d%m%Y%H%M)
-       docker build ./docker/agent --tag python-monitoring-agent:$tag
-       docker tag python-monitoring-agent:$tag python-monitoring-agent:latest
-       docker push ghcr.io/${{github.actor}}/python-monitoring-agent:$tag
-       docker push ghcr.io/${{github.actor}}/python-monitoring-agent:latest
+       docker build ./docker/agent --tag $reponame:$tag
+       docker tag $reponame:$tag $reponame:latest
+       docker push ghcr.io/$username/:$tag
+       docker push ghcr.io/$username/:latest
 
       
