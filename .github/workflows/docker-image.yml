@@ -35,9 +35,9 @@ jobs:
        export tag=$(date +%d%m%Y%H%M)
        echo
        echo ghcr.io/$username/:$tag
-       #docker build ./docker/agent --tag $reponame:$tag
-       #docker tag $reponame:$tag $reponame:latest
-       #docker push ghcr.io/$username/:$tag
-       #docker push ghcr.io/$username/:latest
+       docker build ./docker/agent --tag $reponame:$tag
+       docker tag $reponame:$tag $reponame:latest
+       docker push ghcr.io/$username/:$tag
+       docker push ghcr.io/$username/:latest
 
       
