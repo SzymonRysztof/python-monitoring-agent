@@ -44,7 +44,7 @@ jobs:
               ghcr.io/szymonrysztof/python-monitoring-agent:${{ steps.date.outputs.current }}
           if: ${{ github.ref == 'refs/heads/master' }}
         
-        - name: Build and push master
+        - name: Build and push not master
           uses: docker/build-push-action@v4
           with:
             platforms: linux/amd64,linux/arm64
