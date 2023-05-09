@@ -6,13 +6,16 @@ logger = logging.getLogger(__name__)
 
 # Import modules used for fetching metrics
 def get_metrics():
-    import disks, cpu, memory, net_interfaces
+    from .disks import metrics as disks
+    from .cpu import metrics as cpu
+    from .memory import metrics as memory
+    from .net_interfaces import metrics as net_interfaces
 
     metrics = {}
 
     # Update metrics dictionary with returned values from sub modules
-    metrics.update(disks.metrics())
-    metrics.update(cpu.metrics())
-    metrics.update(memory.metrics())
-    metrics.update(net_interfaces.metrics())
+    metrics.update(disks())
+    metrics.update(cpu())
+    metrics.update(memory())
+    metrics.update(net_interfaces())
     return metrics

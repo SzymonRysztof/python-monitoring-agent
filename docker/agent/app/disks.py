@@ -21,37 +21,37 @@ def get():
                 tmp[part.device]['device'] = part.device
             except Exception as e:
                 tmp[part.device]['device'] = None
-                logging.warning(f'Error occurred while accessing part.device: {e}')
+                logger.warning(f'Error occurred while accessing part.device: {e}')
 
             try:
                 tmp[part.device]['mountpoint'] = part.mountpoint
             except Exception as e:
                 tmp[part.device]['mountpoint'] = None
-                logging.warning(f'Error occurred while accessing part.mountpoint: {e}')
+                logger.warning(f'Error occurred while accessing part.mountpoint: {e}')
 
             try:
                 tmp[part.device]['fs'] = part.fstype
             except Exception as e:
                 tmp[part.device]['fs'] = None
-                logging.warning(f'Error occurred while accessing part.fstype: {e}')
+                logger.warning(f'Error occurred while accessing part.fstype: {e}')
 
             try:
                 tmp[part.device]['total_space'] = df.total
             except Exception as e:
                 tmp[part.device]['total_space'] = None
-                logging.warning(f'Error occurred while accessing df.total: {e}')
+                logger.warning(f'Error occurred while accessing df.total: {e}')
 
             try:
                 tmp[part.device]['used_space'] = df.used
             except Exception as e:
                 tmp[part.device]['used_space'] = None
-                logging.warning(f'Error occurred while accessing df.used: {e}')
+                logger.warning(f'Error occurred while accessing df.used: {e}')
 
             try:
                 tmp[part.device]['free_space'] = df.free
             except Exception as e:
                 tmp[part.device]['free_space'] = None
-                logging.warning(f'Error occurred while accessing df.free: {e}')
+                logger.warning(f'Error occurred while accessing df.free: {e}')
 
         disks_tmp.update(tmp)
     disks = {'disks': disks_tmp}
