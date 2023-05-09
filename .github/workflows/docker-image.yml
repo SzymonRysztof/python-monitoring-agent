@@ -33,7 +33,7 @@ jobs:
             echo "current=$(date +%d%m%Y%H%M)" >> $GITHUB_OUTPUT
           id: date
           
-        - name: Build and push
+        - name: Build and push master
           uses: docker/build-push-action@v4
           with:
             platforms: linux/amd64,linux/arm64
@@ -42,4 +42,14 @@ jobs:
             tags: |
               ghcr.io/szymonrysztof/python-monitoring-agent:latest
               ghcr.io/szymonrysztof/python-monitoring-agent:${{ steps.date.outputs.current }}
-            
+          if: ${{ github.ref == 'refs/heads/master' }}
+        
+        - name: Build and push master
+          uses: docker/build-push-action@v4
+          with:
+            platforms: linux/amd64,linux/arm64
+            push: true
+            context: ./docker/agent
+            tags: |
+              ghcr.io/szymonrysztof/python-monitoring-agent:${{ steps.date.outputs.current }}
+          if: ${{ github.ref != 'refs/heads/master' }}
