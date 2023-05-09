@@ -30,7 +30,7 @@ jobs:
     
     - name: 'Build Inventory Image'
       run: |
-       username=${{OWNER_LC}}
+       username=$OWNER_LC
        export reponame=$(basename $(pwd))
        export tag=$(date +%d%m%Y%H%M)
        echo
