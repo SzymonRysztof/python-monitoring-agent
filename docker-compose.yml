@@ -8,6 +8,9 @@ services:
     restart: unless-stopped
     env_file:
       - .env
+    profiles:
+      - full
+      - agent-only
 
   grafana:
     image: grafana/grafana:latest
@@ -17,6 +20,9 @@ services:
       - ./docker/grafana:/var/lib/grafana
     env_file:
       - .env
+    profiles:
+      - full
+      - develop
 
   influxdb:
     image: influxdb:latest
@@ -27,3 +33,6 @@ services:
       - ./docker/influxdb/config:/etc/influxdb2
     env_file:
       - .env
+    profiles:
+      - full
+      - develop

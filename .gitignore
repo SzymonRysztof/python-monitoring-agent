@@ -136,3 +136,7 @@ ENV/- __pycache__
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 .idea/
 .vscode/
+
+# Custom
+docker/grafana/
+docker/influxdb
