@@ -1,0 +1,33 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@main
+      
+    - name: 'Login to GitHub Container Registry'
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{github.actor}}
+        password: ${{secrets.GHCR_TOKEN}}
+    
+    - name: 'Build Inventory Image'
+      run: |
+       export tag=$($date +%d/%m/%Y_%H:%M)
+       docker build ./docker/agent --file Dockerfile --tag python-monitoring-agent:$tag
+       docker tag python-monitoring-agent:($date +%d/%m/%Y_%H:%M) python-monitoring-agent:latest
+       docker push ghcr.io/${{github.actor}}/python-monitoring-agent:$tag
+       docker push ghcr.io/${{github.actor}}/python-monitoring-agent:latest
+
+      
