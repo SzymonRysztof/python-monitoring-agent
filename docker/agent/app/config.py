@@ -30,8 +30,11 @@ class Config:
             logger.debug('Found docker environment, loaded config from environment')
 
         else:
-            home = os.path.expanduser('~')
-            path = f'{home}/.config/python-monitoring-agent'
+            if os.getenv("XDG_CONFIG_HOME"):
+                path = f'{os.getenv("XDG_CONFIG_HOME")}/python-monitoring-agent'
+            else:
+                home = os.path.expanduser('~')
+                path = f'{home}/.config/python-monitoring-agent'
             file_name = 'config.yaml'
             config_file = f'{path}/{file_name}'
             if os.path.isfile(config_file):
