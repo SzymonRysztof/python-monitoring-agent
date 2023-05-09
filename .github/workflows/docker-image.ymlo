@@ -25,7 +25,7 @@ jobs:
     - name: 'Build Inventory Image'
       run: |
        username=${{github.actor}}
-       export username="$username | tr '[:upper:]' '[:lower:]'"
+       echo $username | tr '[:upper:]' '[:lower:]' | read username
        export reponame=$(basename $(pwd))
        export tag=$(date +%d%m%Y%H%M)
        echo ghcr.io/$username/:$tag
