@@ -40,5 +40,5 @@ jobs:
             push: true
             tags: |
               ghcr.io/szymonrysztof/python-monitoring-agent:latest
-              ghcr.io/szymonrysztof/python-monitoring-agent:${{ curr_date.outputs }}
+              ghcr.io/szymonrysztof/python-monitoring-agent:${{ steps.curr_date.outputs }}
             
