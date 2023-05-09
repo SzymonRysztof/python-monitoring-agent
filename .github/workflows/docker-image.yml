@@ -26,7 +26,7 @@ jobs:
       run: |
        export tag=$(date +%d/%m/%Y_%H:%M)
        docker build ./docker/agent --tag python-monitoring-agent:$tag
-       docker tag python-monitoring-agent:($date +%d/%m/%Y_%H:%M) python-monitoring-agent:latest
+       docker tag python-monitoring-agent:$tag python-monitoring-agent:latest
        docker push ghcr.io/${{github.actor}}/python-monitoring-agent:$tag
        docker push ghcr.io/${{github.actor}}/python-monitoring-agent:latest
 
