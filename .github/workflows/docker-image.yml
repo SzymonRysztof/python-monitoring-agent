@@ -22,10 +22,15 @@ jobs:
         username: ${{github.actor}}
         password: ${{secrets.GHCR_TOKEN}}
     
+    - name: set lower case owner name
+      run: |
+        echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
+      env:
+        OWNER: '${{ github.actor }}'
+    
     - name: 'Build Inventory Image'
       run: |
-       username=${{github.actor}}
-       echo $username | tr '[:upper:]' '[:lower:]' | read username
+       username=${{OWNER_LC}}
        export reponame=$(basename $(pwd))
        export tag=$(date +%d%m%Y%H%M)
        echo
