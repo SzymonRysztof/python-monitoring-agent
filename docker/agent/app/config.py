@@ -2,12 +2,10 @@
 import logging, re, yaml
 import os
 from sys import stdout, exit
-from dotenv import load_dotenv, find_dotenv, dotenv_values
 
 logger = logging.getLogger(__name__)
 
 
-# TODO better config validation
 class Config:
 
     def __init__(self):
@@ -21,12 +19,14 @@ class Config:
                 self.agent_influx_token = str(os.getenv('AGENT_INFLUX_TOKEN').strip())
                 self.agent_verbosity = str(os.getenv('AGENT_VERBOSITY').strip())
                 self.agent_hostname = str(os.getenv('AGENT_HOSTNAME')).strip()
-                self.agent_polling_rate = int(os.getenv('POLLING_RATE'))
+                self.agent_polling_rate = int(os.getenv('AGENT_POLLING_RATE'))
             except AttributeError as e:
                 logger.error(f'Environment variable not set: {str(e)}')
                 raise AttributeError(
                     'All environment variables from .env.dist should be present and set'
                 ) from e
+            except TypeError as e:
+                logger.error(f'Couldn\'t cast one of environment variables: {str(e)}')
             logger.debug('Found docker environment, loaded config from environment')
 
         else:
@@ -48,7 +48,7 @@ class Config:
                 self.agent_verbosity = config_yaml['agent']['VERBOSITY']
                 self.agent_hostname = config_yaml['agent']['HOSTNAME']
                 try:
-                    self.agent_polling_rate = int(config_yaml['agent']['POLLING_RATE'])
+                    self.agent_polling_rate = int(config_yaml['agent']['AGENT_POLLING_RATE'])
                 except ValueError:
                     self.agent_polling_rate = self.default_polling_rate
                     logger.warning(
@@ -64,11 +64,10 @@ class Config:
                         'INFLUX_TOKEN': 'some_token',
                         'VERBOSITY': 'CRITICAL',
                         'HOSTNAME': 'hostname',
-                        'POLLING_RATE': 60
+                        'AGENT_POLLING_RATE': 60
                     }}
                 try:
                     if not os.path.exists(path):
-                        print("not")
                         os.makedirs(path)
                     with open(config_file, 'a+') as f:
                         yaml.dump(config_example, f)
@@ -83,13 +82,16 @@ class Config:
 
         if '' in [self.agent_influx_url, self.agent_influx_bucket, self.agent_influx_org, self.agent_influx_token]:
             logger.critical(f'Invalid environment variables value ')
-            logger.debug(f'Invalid environment variables value'
-                          f'\ninflux_bucket: {self.agent_influx_bucket}'
-                          f'\ninflux_org: {self.agent_influx_org}'
-                          f'\ninflux_token: {self.agent_influx_token}'
-                          f'\ninflux_url: {self.agent_influx_url}'
-                          )
             raise ValueError('Environment variables cannot be empty')
+
+        logger.debug(f'Configuration options:'
+                     f'\ninflux_bucket: {self.agent_influx_bucket}'
+                     f'\ninflux_org: {self.agent_influx_org}'
+                     f'\ninflux_token: {self.agent_influx_token[:5]}********{self.agent_influx_token[-5:]}'
+                     f'\ninflux_url: {self.agent_influx_url}'
+                     f'\nagent_verbosity: {self.agent_verbosity}'
+                     f'\nagent_hostname: {self.agent_hostname}'
+                     )
 
         # config = {
         #     'INFLUX_URL': self.agent_influx_url,
@@ -98,7 +100,7 @@ class Config:
         #     'INFLUX_TOKEN': self.agent_influx_token,
         #     'VERBOSITY': self.agent_verbosity,
         #     'HOSTNAME': self.agent_hostname,
-        #     'POLLING_RATE': self.agent_polling_rate
+        #     'AGENT_POLLING_RATE': self.agent_polling_rate
         # }
 
     def get_config(self):

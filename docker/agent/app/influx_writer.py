@@ -3,7 +3,7 @@ import logging
 import json
 from influxdb_client.client.write_api import SYNCHRONOUS
 from influxdb_client import InfluxDBClient, Point
-from config import Config
+from .config import Config
 
 logger = logging.getLogger(__name__)
 config = Config()

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-import os, psutil
 import logging
+import os
+import psutil
 from time import sleep
 
 logger = logging.getLogger(__name__)
