@@ -12,7 +12,12 @@ def get():
     tmp = {}
     for part in partitions:
         if part.mountpoint:
-            df = psutil.disk_usage(part.mountpoint)
+            try:
+                df = psutil.disk_usage(part.mountpoint)
+            except PermissionError as e:
+                logger.warning(f'Couldn\'t read filesystem mounted on {part.mountpoint} skipping')
+                logger.info(f'{str(e)}')
+                continue
             tmp = {
                 part.device: {}
             }
