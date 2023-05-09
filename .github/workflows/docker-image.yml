@@ -27,7 +27,7 @@ jobs:
               
         - name: Get current date to use it as TAG
           run: | 
-            echo "date +%d%m%Y%H%M " >> $GITHUB_OUTPUT
+            echo "$(date +%d%m%Y%H%M)" >> $GITHUB_OUTPUT
           id: curr_date
           
         - name: Build and push
