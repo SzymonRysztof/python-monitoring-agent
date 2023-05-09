@@ -27,8 +27,8 @@ jobs:
               
         - name: Get current date to use it as TAG
           run: | 
-            echo "$(date +%d%m%Y%H%M)" >> $GITHUB_OUTPUT
-          id: curr_date
+            echo "current=$(date +%d%m%Y%H%M)" >> $GITHUB_OUTPUT
+          id: date
           
         - name: Build and push
           uses: docker/build-push-action@v4
@@ -38,5 +38,5 @@ jobs:
             context: ./docker/agent
             tags: |
               ghcr.io/szymonrysztof/python-monitoring-agent:latest
-              ghcr.io/szymonrysztof/python-monitoring-agent:${{ steps.curr_date.outputs }}
+              ghcr.io/szymonrysztof/python-monitoring-agent:${{ steps.date.outputs.current }}
             
