@@ -58,7 +58,7 @@ def get():
                 tmp['created_n'] += container_tmp['Name'] + ','
             elif 'up' in status:
                 tmp['running'] += 1
-                tmp['running_n'] += json.dumps(container_tmp, indent=4)
+                tmp['running_n'] += container_tmp['Name'] + ','
         tmp['containers_count'] = len(containers)
     containers_tmp = tmp
     tmp = {}
