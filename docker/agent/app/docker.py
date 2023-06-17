@@ -112,23 +112,25 @@ def get_containers():
             tmp[id]['Cpu_usage_kernel'] = None
             logger.warning(f'Error occurred while accessing container\'s CPU kernelmode usage: {e}')
 
-        if 'networks' in stats:
-            rx_bytes = 0
-            tx_bytes = 0
+        rx_bytes = 0
+        tx_bytes = 0
+        try:
             for interface in stats['networks']:
                 rx_bytes += stats['networks'][interface]['rx_bytes']
                 tx_bytes += stats['networks'][interface]['tx_bytes']
+        except:
+            pass
 
-            try:
-                tmp[id]['Rx_bytes'] = stats['networks'][interface]['rx_bytes']
-            except Exception as e:
-                tmp[id]['Rx_bytes'] = None
-                logger.warning(f'Error occurred while accessing container\'s received bytes: {e}')
-            try:
-                tmp[id]['Tx_bytes'] = stats['networks'][interface]['tx_bytes']
-            except Exception as e:
-                tmp[id]['Rx_bytes'] = None
-                logger.warning(f'Error occurred while accessing container\'s transferred bytes: {e}')
+        try:
+            tmp[id]['Rx_bytes'] = rx_bytes
+        except Exception as e:
+            tmp[id]['Rx_bytes'] = None
+            logger.warning(f'Error occurred while accessing container\'s received bytes: {e}')
+        try:
+            tmp[id]['Tx_bytes'] = tx_bytes
+        except Exception as e:
+            tmp[id]['Tx_bytes'] = None
+            logger.warning(f'Error occurred while accessing container\'s transferred bytes: {e}')
 
         containers_tmp.update(tmp)
     containers = {'containers': containers_tmp}
