@@ -43,6 +43,9 @@ def write_to_influxdb(data, client):
             'cpu_utilization': cpu_metrics['utilization'],
             'cpu_temperature': cpu_metrics['temperature'],
             'cpu_processors': cpu_metrics['processors'],
+        },
+        'tags': {
+            'hostname': hostname,
         }
     }
     points.append(system_metric)
@@ -186,7 +189,6 @@ def write_to_influxdb(data, client):
     logger.info(f'Docker system metric prepared')
     logger.debug(docker_system_metric)
 
-    print(json.dumps(points, indent=4))
     try:
         logger.debug(points)
         write_api = client.write_api(write_options=SYNCHRONOUS)
