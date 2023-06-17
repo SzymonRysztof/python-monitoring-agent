@@ -197,36 +197,3 @@ def write_to_influxdb(data, client):
         logger.warning(f"Error while writing to InfluxDB: {e}")
     finally:
         client.close()
-
-    # point = Point(metric)
-    # point.tag("Metric", metric)
-    # point.tag("Hostname", config.agent_hostname)
-    #
-    # if metric == 'docker':
-    #     for type, values in data[metric].items():
-    #         for id, value in values.items():
-    #             print(type)
-    #             if type == 'system':
-    #                 point.tag("Type", type)
-    #                 point.tag("Id", id)
-    #                 point.field(id, value)
-    #             else:
-    #                 for local_metric, local_metric_data in value.items():
-    #                     point.tag("Type", type)
-    #                     point.tag("Id", id)
-    #                     point.field(local_metric, local_metric_data)
-    #
-    # elif metric in ['disks', 'net_interfaces']:
-    #     for keys, values in data[metric].items():
-    #         for key, value in values.items():
-    #             point.field(key, value)
-    # else:
-    #     for key, value in data[metric].items():
-    #         point.field(key, value)
-    #
-    # try:
-    #     logger.info(point)
-    #     with client.write_api(write_options=SYNCHRONOUS) as writer:
-    #         writer.write(bucket=config.agent_influx_bucket, record=[point])
-    # except Exception as e:
-    #     logger.warning(f"Error while writing to InfluxDB: {e}")
