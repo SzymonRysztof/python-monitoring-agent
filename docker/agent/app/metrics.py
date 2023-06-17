@@ -10,6 +10,7 @@ def get_metrics():
     from .cpu import metrics as cpu
     from .memory import metrics as memory
     from .net_interfaces import metrics as net_interfaces
+    from .docker import metrics as docker
 
     metrics = {}
 
@@ -18,4 +19,5 @@ def get_metrics():
     metrics.update(cpu())
     metrics.update(memory())
     metrics.update(net_interfaces())
+    metrics.update(docker())
     return metrics

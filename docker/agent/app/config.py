@@ -51,7 +51,7 @@ class Config:
                 self.agent_verbosity = config_yaml['agent']['VERBOSITY']
                 self.agent_hostname = config_yaml['agent']['HOSTNAME']
                 try:
-                    self.agent_polling_rate = int(config_yaml['agent']['AGENT_POLLING_RATE'])
+                    self.agent_polling_rate = int(config_yaml['agent']['POLLING_RATE'])
                 except ValueError:
                     self.agent_polling_rate = self.default_polling_rate
                     logger.warning(
@@ -67,7 +67,7 @@ class Config:
                         'INFLUX_TOKEN': 'some_token',
                         'VERBOSITY': 'CRITICAL',
                         'HOSTNAME': 'hostname',
-                        'AGENT_POLLING_RATE': 60
+                        'POLLING_RATE': 60
                     }}
                 try:
                     if not os.path.exists(path):

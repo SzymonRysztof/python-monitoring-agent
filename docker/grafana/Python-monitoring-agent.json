@@ -24,10 +24,16 @@
       "version": "1.0.0"
     },
     {
+      "type": "panel",
+      "id": "bargauge",
+      "name": "Bar gauge",
+      "version": ""
+    },
+    {
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "9.4.7"
+      "version": "9.5.1"
     },
     {
       "type": "datasource",
@@ -78,721 +84,315 @@
   "liveNow": false,
   "panels": [
     {
-      "collapsed": false,
+      "collapsed": true,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
         "y": 0
       },
-      "id": 8,
-      "panels": [],
-      "repeat": "Host",
-      "repeatDirection": "h",
-      "title": "Performance - $Host",
+      "id": 36,
+      "panels": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "fixedColor": "light-orange",
+                "mode": "fixed"
+              },
+              "decimals": 1,
+              "mappings": [],
+              "thresholds": {
+                "mode": "percentage",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "bytes"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "No. of cores"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "none"
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 22,
+            "w": 12,
+            "x": 0,
+            "y": 1
+          },
+          "id": 33,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "9.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": false,
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ram_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"ram_total\")\n  |> toFloat()\n  |> map(fn: (r) => ({r with _value: r._value}))\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Total RAM\"}))\n  ",
+              "refId": "Total RAM"
+            },
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": false,
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ram_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"ram_used\")\n  |> toFloat()\n  |> map(fn: (r) => ({r with _value: r._value}))\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Used RAM\"}))\n  ",
+              "refId": "Used RAM"
+            },
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": false,
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ram_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"ram_free\")\n  |> toFloat()\n  |> map(fn: (r) => ({r with _value: r._value}))\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Free RAM\"}))\n  ",
+              "refId": "Free RAM"
+            },
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": false,
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ram_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"ram_cached\")\n  |> toFloat()\n  |> map(fn: (r) => ({r with _value: r._value}))\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Cached RAM\"}))\n  ",
+              "refId": "Cached RAM"
+            },
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": false,
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ram_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"ram_buffers\")\n  |> toFloat()\n  |> map(fn: (r) => ({r with _value: r._value}))\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Buffered RAM\"}))\n  ",
+              "refId": "Buffered RAM"
+            }
+          ],
+          "title": "Ram summary",
+          "transformations": [],
+          "transparent": true,
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "fixedColor": "semi-dark-orange",
+                "mode": "fixed"
+              },
+              "decimals": 1,
+              "mappings": [],
+              "thresholds": {
+                "mode": "percentage",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "bytes"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "No. of cores"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "none"
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 13,
+            "w": 12,
+            "x": 12,
+            "y": 1
+          },
+          "id": 34,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "9.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": false,
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"swap_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"swap_total\")\n  |> toFloat()\n  |> map(fn: (r) => ({r with _value: r._value}))\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Total SWAP\"}))\n  ",
+              "refId": "Total SWAP"
+            },
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": false,
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"swap_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"swap_used\")\n  |> toFloat()\n  |> map(fn: (r) => ({r with _value: r._value}))\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Used SWAP\"}))\n  ",
+              "refId": "Used SWAP"
+            },
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": false,
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"swap_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"swap_free\")\n  |> toFloat()\n  |> map(fn: (r) => ({r with _value: r._value}))\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Free SWAP\"}))\n  ",
+              "refId": "Free SWAP"
+            },
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": false,
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"system_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"cpu_processors\")\n  |> toFloat()\n  |> map(fn: (r) => ({r with _value: r._value}))\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"No. of cores\"}))\n  ",
+              "refId": "Cores"
+            }
+          ],
+          "title": "SWAP summary",
+          "transformations": [],
+          "transparent": true,
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "fixedColor": "dark-purple",
+                "mode": "fixed"
+              },
+              "decimals": 0,
+              "mappings": [],
+              "thresholds": {
+                "mode": "percentage",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "No. of cores"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "none"
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 12,
+            "y": 14
+          },
+          "id": 35,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "value_and_name"
+          },
+          "pluginVersion": "9.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": false,
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"system_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"cpu_processors\")\n  |> toFloat()\n  |> map(fn: (r) => ({r with _value: r._value}))\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"No. of cores\"}))\n  ",
+              "refId": "Cores"
+            }
+          ],
+          "title": "Number of CPUs",
+          "transformations": [],
+          "transparent": true,
+          "type": "stat"
+        }
+      ],
+      "title": "Summary",
       "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS_INFLUXDB}"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "opacity",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineStyle": {
-              "fill": "solid"
-            },
-            "lineWidth": 3,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "line"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "percentage",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "rothz"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Temp"
-            },
-            "properties": [
-              {
-                "id": "custom.axisPlacement",
-                "value": "right"
-              },
-              {
-                "id": "unit",
-                "value": "celsius"
-              },
-              {
-                "id": "custom.axisSoftMax",
-                "value": 80
-              },
-              {
-                "id": "custom.axisSoftMin",
-                "value": 30
-              },
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "orange",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 0,
-        "y": 1
-      },
-      "id": 6,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_INFLUXDB}"
-          },
-          "hide": false,
-          "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"cpu\" and r._field == \"current\" and r.Hostname == ${Host:doublequote}\n  )\n  |> toFloat()\n  |> map(fn: (r) => ({r with _value: r._value * 1000000.0}))\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Frequency\"}))\n  ",
-          "refId": "Frequencies"
-        },
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_INFLUXDB}"
-          },
-          "hide": false,
-          "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"cpu\" and r._field == \"temperature\" and r.Hostname == ${Host:doublequote}\n  )\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Temp\"}))\n",
-          "refId": "A"
-        }
-      ],
-      "title": "CPU speed",
-      "transformations": [],
-      "transparent": true,
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS_INFLUXDB}"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "axisSoftMin": 0,
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 14,
-            "gradientMode": "opacity",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "smooth",
-            "lineStyle": {
-              "fill": "solid"
-            },
-            "lineWidth": 3,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "No. of Cores"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "none"
-              },
-              {
-                "id": "custom.axisPlacement",
-                "value": "right"
-              },
-              {
-                "id": "custom.axisSoftMax",
-                "value": 8
-              },
-              {
-                "id": "custom.axisSoftMin",
-                "value": 2
-              },
-              {
-                "id": "custom.drawStyle",
-                "value": "points"
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 12,
-        "y": 1
-      },
-      "id": 2,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_INFLUXDB}"
-          },
-          "hide": false,
-          "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"cpu\" and r._field == \"1m\" and r.Hostname == ${Host:doublequote}\n  )\n  |> toFloat()\n  |> map(fn: (r) => ({r with _value: r._value}))\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"1m AVG utilization\"}))\n  ",
-          "refId": "1m"
-        },
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_INFLUXDB}"
-          },
-          "hide": false,
-          "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"cpu\" and r._field == \"5m\" and r.Hostname == ${Host:doublequote}\n  )\n  |> toFloat()\n  |> map(fn: (r) => ({r with _value: r._value}))\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"5m AVG utilization\"}))\n  ",
-          "refId": "5m"
-        },
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_INFLUXDB}"
-          },
-          "hide": false,
-          "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"cpu\" and r._field == \"15m\" and r.Hostname == ${Host:doublequote}\n  )\n  |> toFloat()\n  |> map(fn: (r) => ({r with _value: r._value}))\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"15m AVG utilization\"}))\n  ",
-          "refId": "15m"
-        },
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_INFLUXDB}"
-          },
-          "hide": false,
-          "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"cpu\" and r._field == \"processors\" and r.Hostname == ${Host:doublequote}\n  )\n  |> toFloat()\n  |> map(fn: (r) => ({r with _value: r._value}))\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"No. of Cores\"}))\n  ",
-          "refId": "cores"
-        },
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_INFLUXDB}"
-          },
-          "hide": false,
-          "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"cpu\" and r._field == \"utilization\" and r.Hostname == ${Host:doublequote}\n  )\n  |> toFloat()\n  |> map(fn: (r) => ({r with _value: r._value}))\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"CPU Utilization\"}))\n  ",
-          "refId": "A"
-        }
-      ],
-      "title": "CPU utilization",
-      "transformations": [],
-      "transparent": true,
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS_INFLUXDB}"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "opacity",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineStyle": {
-              "fill": "solid"
-            },
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "decbytes"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Total SWAP (MB)"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "semi-dark-purple",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Free SWAP (MB)"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "semi-dark-green",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Total SWAP utilization"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "percent"
-              },
-              {
-                "id": "custom.drawStyle",
-                "value": "line"
-              },
-              {
-                "id": "custom.fillOpacity",
-                "value": 30
-              },
-              {
-                "id": "custom.gradientMode",
-                "value": "hue"
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 0,
-        "y": 11
-      },
-      "id": 5,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "max",
-            "mean",
-            "last"
-          ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_INFLUXDB}"
-          },
-          "hide": false,
-          "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"swap\" and r._field == \"total\" and r.Hostname == ${Host:doublequote}\n  )\n  |> toFloat()\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Total SWAP\"}))\n  |> aggregateWindow(every: 1m, fn: mean)\n",
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_INFLUXDB}"
-          },
-          "hide": false,
-          "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"swap\" and r._field == \"used\" and r.Hostname == ${Host:doublequote}\n  )\n  |> toFloat()\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Used SWAP\"}))\n  |> aggregateWindow(every: 1m, fn: mean)\n",
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_INFLUXDB}"
-          },
-          "hide": false,
-          "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"swap\" and r._field == \"free\" and r.Hostname == ${Host:doublequote}\n  )\n  |> toFloat()\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Free SWAP\"}))\n  |> aggregateWindow(every: 1m, fn: mean)\n",
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "__expr__",
-            "uid": "${DS_EXPRESSION}"
-          },
-          "expression": "($B / $A) * 100",
-          "hide": false,
-          "refId": "Total SWAP utilization",
-          "type": "math"
-        }
-      ],
-      "title": "SWAP",
-      "transformations": [],
-      "transparent": true,
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS_INFLUXDB}"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "log": 2,
-              "type": "log"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "decbytes"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Buffered/Cached RAM"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#F2495C",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "D"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "orange",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Total RAM utilization"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "percent"
-              },
-              {
-                "id": "custom.drawStyle",
-                "value": "line"
-              },
-              {
-                "id": "custom.lineWidth",
-                "value": 2
-              },
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "semi-dark-purple",
-                  "mode": "fixed"
-                }
-              },
-              {
-                "id": "custom.gradientMode",
-                "value": "hue"
-              },
-              {
-                "id": "custom.drawStyle",
-                "value": "line"
-              },
-              {
-                "id": "custom.fillOpacity",
-                "value": 30
-              },
-              {
-                "id": "custom.scaleDistribution",
-                "value": {
-                  "type": "linear"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 12,
-        "x": 12,
-        "y": 11
-      },
-      "id": 4,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "max",
-            "mean",
-            "lastNotNull"
-          ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_INFLUXDB}"
-          },
-          "hide": false,
-          "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"ram\" and r._field == \"total\" and r.Hostname == ${Host:doublequote}\n  )\n  |> toFloat()\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Total system's RAM\"}))\n  |> aggregateWindow(every: 1m, fn: mean)\n",
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_INFLUXDB}"
-          },
-          "hide": false,
-          "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"ram\" and r._field == \"used\" and r.Hostname == ${Host:doublequote}\n  )\n  |> toFloat()\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Used RAM\"}))\n  |> aggregateWindow(every: 1m, fn: mean)\n",
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_INFLUXDB}"
-          },
-          "hide": false,
-          "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"ram\" and r._field == \"free\" and r.Hostname == ${Host:doublequote}\n  )\n  |> toFloat()\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Free RAM\"}))\n  |> aggregateWindow(every: 1m, fn: mean)\n",
-          "refId": "C"
-        },
-        {
-          "datasource": {
-            "type": "__expr__",
-            "uid": "${DS_EXPRESSION}"
-          },
-          "expression": "($B / $A) * 100",
-          "hide": false,
-          "refId": "Total RAM utilization",
-          "type": "math"
-        },
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_INFLUXDB}"
-          },
-          "hide": false,
-          "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"ram\" and r._field == \"buffers\" and r.Hostname == ${Host:doublequote}\n  )\n  |> toFloat()\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Buffered RAM\"}))\n  |> aggregateWindow(every: 1m, fn: mean)\n",
-          "refId": "D"
-        },
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_INFLUXDB}"
-          },
-          "hide": false,
-          "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"ram\" and r._field == \"cached\" and r.Hostname == ${Host:doublequote}\n  )\n  |> toFloat()\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Cached RAM\"}))\n  |> aggregateWindow(every: 1m, fn: mean)\n",
-          "refId": "E"
-        },
-        {
-          "datasource": {
-            "type": "__expr__",
-            "uid": "${DS_EXPRESSION}"
-          },
-          "expression": "$D + $E",
-          "hide": false,
-          "refId": "Cached and Buffered RAM",
-          "type": "math"
-        }
-      ],
-      "title": "RAM",
-      "transformations": [],
-      "transparent": true,
-      "type": "timeseries"
     },
     {
       "collapsed": true,
@@ -800,7 +400,1004 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 42
+        "y": 1
+      },
+      "id": 8,
+      "panels": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 10,
+                "gradientMode": "opacity",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineStyle": {
+                  "fill": "solid"
+                },
+                "lineWidth": 3,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "line"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "percentage",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "rothz"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Temp"
+                },
+                "properties": [
+                  {
+                    "id": "custom.axisPlacement",
+                    "value": "right"
+                  },
+                  {
+                    "id": "unit",
+                    "value": "celsius"
+                  },
+                  {
+                    "id": "custom.axisSoftMax",
+                    "value": 80
+                  },
+                  {
+                    "id": "custom.axisSoftMin",
+                    "value": 30
+                  },
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "orange",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 12,
+            "x": 0,
+            "y": 2
+          },
+          "id": 6,
+          "options": {
+            "legend": {
+              "calcs": [
+                "lastNotNull",
+                "min",
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": false,
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"system_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"cpu_current\")\n  |> toFloat()\n  |> map(fn: (r) => ({r with _value: r._value * 1000000.0}))\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Frequency\"}))\n  ",
+              "refId": "Frequencies"
+            }
+          ],
+          "title": "CPU speed",
+          "transformations": [],
+          "transparent": true,
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "axisSoftMin": 0,
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 14,
+                "gradientMode": "opacity",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "smooth",
+                "lineStyle": {
+                  "fill": "solid"
+                },
+                "lineWidth": 3,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "percent"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 12,
+            "x": 12,
+            "y": 2
+          },
+          "id": 2,
+          "options": {
+            "legend": {
+              "calcs": [
+                "lastNotNull",
+                "min",
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": false,
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"system_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"cpu_1m\")\n  |> toFloat()\n  |> map(fn: (r) => ({r with _value: r._value}))\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"1m AVG utilization\"}))\n  ",
+              "refId": "1m"
+            },
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": false,
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"system_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"cpu_5m\")\n  |> toFloat()\n  |> map(fn: (r) => ({r with _value: r._value}))\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"5m AVG utilization\"}))\n  ",
+              "refId": "5m"
+            },
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": false,
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"system_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"cpu_15m\")\n  |> toFloat()\n  |> map(fn: (r) => ({r with _value: r._value}))\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"15m AVG utilization\"}))\n  ",
+              "refId": "15m"
+            },
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": false,
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"system_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"cpu_utilization\")\n  |> toFloat()\n  |> map(fn: (r) => ({r with _value: r._value}))\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"CPU utilization\"}))\n  ",
+              "refId": "A"
+            }
+          ],
+          "title": "CPU utilization",
+          "transformations": [],
+          "transparent": true,
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "opacity",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineStyle": {
+                  "fill": "solid"
+                },
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "decbytes"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Total SWAP (MB)"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "semi-dark-purple",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Free SWAP (MB)"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "semi-dark-green",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Total SWAP utilization"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "percent"
+                  },
+                  {
+                    "id": "custom.drawStyle",
+                    "value": "line"
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 30
+                  },
+                  {
+                    "id": "custom.gradientMode",
+                    "value": "hue"
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 12,
+            "x": 0,
+            "y": 12
+          },
+          "id": 5,
+          "options": {
+            "legend": {
+              "calcs": [
+                "lastNotNull",
+                "min",
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": true,
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"swap_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"swap_total\")\n  |> toFloat()\n  |> map(fn: (r) => ({r with _value: r._value}))\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Total amount of SWAP\"}))\n  ",
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": true,
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"swap_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"swap_used\")\n  |> toFloat()\n  |> map(fn: (r) => ({r with _value: r._value}))\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Used SWAP\"}))\n  ",
+              "refId": "B"
+            },
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": true,
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"swap_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"swap_free\")\n  |> toFloat()\n  |> map(fn: (r) => ({r with _value: r._value}))\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Free SWAP\"}))\n  ",
+              "refId": "C"
+            },
+            {
+              "datasource": {
+                "type": "__expr__",
+                "uid": "${DS_EXPRESSION}"
+              },
+              "expression": "($B / $A) * 100",
+              "hide": false,
+              "refId": "Total SWAP utilization",
+              "type": "math"
+            }
+          ],
+          "title": "SWAP",
+          "transformations": [],
+          "transparent": true,
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "log": 2,
+                  "type": "log"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "percent"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Buffered/Cached RAM"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "#F2495C",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "D"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "orange",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Total RAM utilization"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "percent"
+                  },
+                  {
+                    "id": "custom.drawStyle",
+                    "value": "line"
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 2
+                  },
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "semi-dark-purple",
+                      "mode": "fixed"
+                    }
+                  },
+                  {
+                    "id": "custom.gradientMode",
+                    "value": "hue"
+                  },
+                  {
+                    "id": "custom.drawStyle",
+                    "value": "line"
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 30
+                  },
+                  {
+                    "id": "custom.scaleDistribution",
+                    "value": {
+                      "type": "linear"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 12,
+            "x": 12,
+            "y": 12
+          },
+          "id": 4,
+          "options": {
+            "legend": {
+              "calcs": [
+                "lastNotNull",
+                "min",
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": true,
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ram_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"ram_total\")\n  |> toFloat()\n  |> map(fn: (r) => ({r with _value: r._value}))\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Total RAM\"}))\n  ",
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": true,
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ram_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"ram_used\")\n  |> toFloat()\n  |> map(fn: (r) => ({r with _value: r._value}))\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Used RAM\"}))\n  ",
+              "refId": "B"
+            },
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": true,
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ram_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"ram_free\")\n  |> toFloat()\n  |> map(fn: (r) => ({r with _value: r._value}))\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Free RAM\"}))\n  ",
+              "refId": "C"
+            },
+            {
+              "datasource": {
+                "type": "__expr__",
+                "uid": "${DS_EXPRESSION}"
+              },
+              "expression": "($B / $A) * 100",
+              "hide": false,
+              "refId": "Total RAM utilization",
+              "type": "math"
+            }
+          ],
+          "title": "RAM",
+          "transformations": [],
+          "transparent": true,
+          "type": "timeseries"
+        }
+      ],
+      "repeat": "Host",
+      "repeatDirection": "h",
+      "title": "Performance overview",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 2
+      },
+      "id": 24,
+      "panels": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "semi-dark-blue",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "_value Exited containers"
+                },
+                "properties": [
+                  {
+                    "id": "thresholds",
+                    "value": {
+                      "mode": "absolute",
+                      "steps": [
+                        {
+                          "color": "green",
+                          "value": null
+                        },
+                        {
+                          "color": "red",
+                          "value": 1
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 12,
+            "w": 12,
+            "x": 0,
+            "y": 9
+          },
+          "id": 26,
+          "options": {
+            "displayMode": "basic",
+            "minVizHeight": 1,
+            "minVizWidth": 0,
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showUnfilled": true,
+            "text": {},
+            "valueMode": "color"
+          },
+          "pluginVersion": "9.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": false,
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_field\"] == \"container_state\")\n  |> filter(fn: (r) => r[\"_value\"] == \"exited\")\n  |> unique(column: \"container_id\")\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Exited containers\"}))\n  |> count()",
+              "refId": "Exited"
+            },
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": false,
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_field\"] == \"container_state\")\n  |> filter(fn: (r) => r[\"_value\"] == \"running\")\n  |> unique(column: \"container_id\")\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Running containers\"}))\n  |> count()",
+              "refId": "Running"
+            },
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": false,
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_field\"] == \"container_state\")\n  |> filter(fn: (r) => r[\"_value\"] == \"created\")\n  |> unique(column: \"container_id\")\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Created containers\"}))\n  |> count()\n",
+              "refId": "B"
+            }
+          ],
+          "title": "Number of containers",
+          "transformations": [],
+          "transparent": true,
+          "type": "bargauge"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "purple",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Space used by docker"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "decbytes"
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 11,
+            "w": 6,
+            "x": 12,
+            "y": 9
+          },
+          "id": 27,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "9.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": false,
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_field\"] == \"container_state\")\n  |> unique(column: \"container_id\")\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Exited containers\"}))\n  |> count()",
+              "refId": "Containers"
+            }
+          ],
+          "title": "Number of containers",
+          "transformations": [],
+          "transparent": true,
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "blue",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Space used by docker"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "decbytes"
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 6,
+            "x": 18,
+            "y": 9
+          },
+          "id": 28,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "9.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": false,
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_field\"] == \"image_name\")\n  |> unique(column: \"image_id\")\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Number of images\"}))\n  |> count()\n",
+              "refId": "Images"
+            }
+          ],
+          "title": "Number of images",
+          "transformations": [],
+          "transparent": true,
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "fixedColor": "yellow",
+                "mode": "fixed"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 6,
+            "x": 18,
+            "y": 16
+          },
+          "id": 29,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "/^Docker engine version$/",
+              "values": false
+            },
+            "textMode": "value"
+          },
+          "pluginVersion": "9.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_field\"] == \"docker_version\")\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Docker engine version\"}))\n",
+              "refId": "A"
+            }
+          ],
+          "title": "Docker engine version",
+          "type": "stat"
+        }
+      ],
+      "title": "Docker overview",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 3
       },
       "id": 10,
       "panels": [
@@ -819,7 +1416,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -834,7 +1432,7 @@
             "h": 5,
             "w": 2,
             "x": 0,
-            "y": 3
+            "y": 19
           },
           "id": 12,
           "options": {
@@ -851,15 +1449,15 @@
             },
             "textMode": "auto"
           },
-          "pluginVersion": "9.4.7",
+          "pluginVersion": "9.5.1",
           "targets": [
             {
               "datasource": {
                 "type": "influxdb",
                 "uid": "${DS_INFLUXDB}"
               },
-              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"${disk}\" and r._field == \"fs\" and r.Hostname == ${Host:doublequote})\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Filesystem\"}))",
-              "refId": "A"
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"disk_metrics\")\n  |> filter(fn: (r) => r[\"device\"] == ${disk:doublequote})\n  |> map(fn: (r) => ({_value: r[\"fs\"], _time: r._time, _field: \"Filesystem\"}))",
+              "refId": "FS"
             }
           ],
           "title": "Filesystem",
@@ -880,7 +1478,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -895,7 +1494,7 @@
             "h": 5,
             "w": 2,
             "x": 2,
-            "y": 3
+            "y": 19
           },
           "id": 13,
           "options": {
@@ -907,19 +1506,19 @@
               "calcs": [
                 "lastNotNull"
               ],
-              "fields": "/^Filesystem$/",
+              "fields": "/^Mountpoint$/",
               "values": false
             },
             "textMode": "auto"
           },
-          "pluginVersion": "9.4.7",
+          "pluginVersion": "9.5.1",
           "targets": [
             {
               "datasource": {
                 "type": "influxdb",
                 "uid": "${DS_INFLUXDB}"
               },
-              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"${disk}\" and r._field == \"mountpoint\" and r.Hostname == ${Host:doublequote})\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Filesystem\"}))",
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"disk_metrics\")\n  |> filter(fn: (r) => r[\"device\"] == ${disk:doublequote})\n  |> map(fn: (r) => ({_value: r[\"mountpoint\"], _time: r._time, _field: \"Mountpoint\"}))",
               "refId": "A"
             }
           ],
@@ -975,7 +1574,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -991,7 +1591,7 @@
             "h": 9,
             "w": 20,
             "x": 4,
-            "y": 3
+            "y": 19
           },
           "id": 16,
           "options": {
@@ -1012,7 +1612,7 @@
                 "type": "influxdb",
                 "uid": "${DS_INFLUXDB}"
               },
-              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"${disk}\" and r._field == \"total_space\" and r.Hostname == ${Host:doublequote})\n  |> toFloat()\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Total space\"}))\n  |> aggregateWindow(every: 1m, fn: mean)\n",
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"disk_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"disk_total_space\")\n  |> map(fn: (r) => ({_value: r[\"_value\"], _time: r._time, _field: \"Total space\"}))",
               "refId": "total"
             },
             {
@@ -1021,7 +1621,7 @@
                 "uid": "${DS_INFLUXDB}"
               },
               "hide": false,
-              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"${disk}\" and r._field == \"used_space\" and r.Hostname == ${Host:doublequote})\n  |> toFloat()\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Used space\"}))\n  |> aggregateWindow(every: 1m, fn: mean)\n",
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"disk_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"disk_used_space\")\n  |> map(fn: (r) => ({_value: r[\"_value\"], _time: r._time, _field: \"Used space\"}))",
               "refId": "used"
             },
             {
@@ -1030,7 +1630,7 @@
                 "uid": "${DS_INFLUXDB}"
               },
               "hide": false,
-              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"${disk}\" and r._field == \"free_space\" and r.Hostname == ${Host:doublequote})\n  |> toFloat()\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Free space\"}))\n  |> aggregateWindow(every: 1m, fn: mean)\n",
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"disk_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"disk_free_space\")\n  |> map(fn: (r) => ({_value: r[\"_value\"], _time: r._time, _field: \"Free space\"}))",
               "refId": "free"
             }
           ],
@@ -1052,7 +1652,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1067,7 +1668,7 @@
             "h": 4,
             "w": 4,
             "x": 0,
-            "y": 8
+            "y": 24
           },
           "id": 14,
           "options": {
@@ -1079,19 +1680,19 @@
               "calcs": [
                 "lastNotNull"
               ],
-              "fields": "/^Filesystem$/",
+              "fields": "/^Block device$/",
               "values": false
             },
             "textMode": "auto"
           },
-          "pluginVersion": "9.4.7",
+          "pluginVersion": "9.5.1",
           "targets": [
             {
               "datasource": {
                 "type": "influxdb",
                 "uid": "${DS_INFLUXDB}"
               },
-              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"${disk}\" and r._field == \"device\" and r.Hostname == ${Host:doublequote})\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Filesystem\"}))",
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"disk_metrics\")\n  |> filter(fn: (r) => r[\"device\"] == ${disk:doublequote})\n  |> map(fn: (r) => ({_value: r[\"device\"], _time: r._time, _field: \"Block device\"}))",
               "refId": "A"
             }
           ],
@@ -1108,7 +1709,7 @@
             "defaults": {
               "color": {
                 "fixedColor": "green",
-                "mode": "fixed"
+                "mode": "thresholds"
               },
               "custom": {
                 "axisCenteredZero": false,
@@ -1134,7 +1735,7 @@
                   "type": "linear"
                 },
                 "showPoints": "never",
-                "spanNulls": false,
+                "spanNulls": true,
                 "stacking": {
                   "group": "A",
                   "mode": "none"
@@ -1151,11 +1752,16 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "#EAB839",
+                    "value": 80
                   },
                   {
                     "color": "red",
-                    "value": 80
+                    "value": 90
                   }
                 ]
               },
@@ -1167,12 +1773,17 @@
             "h": 9,
             "w": 24,
             "x": 0,
-            "y": 12
+            "y": 28
           },
           "id": 18,
           "options": {
             "legend": {
-              "calcs": [],
+              "calcs": [
+                "lastNotNull",
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -1190,7 +1801,7 @@
                 "uid": "${DS_INFLUXDB}"
               },
               "hide": true,
-              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == ${disk:doublequote} and r._field == \"total_space\" and r.Hostname == ${Host:doublequote})\n  |> toFloat()\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Total space\"}))\n  |> aggregateWindow(every: 1m, fn: mean)\n",
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"disk_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"disk_total_space\")\n  |> filter(fn: (r) => r[\"device\"] == ${disk:doublequote})\n  |> toFloat()\n  |> map(fn: (r) => ({_value: r[\"_value\"], _time: r._time, _field: \"Total space\"}))\n  |> aggregateWindow(every: 1m, fn: mean)\n\n  ",
               "refId": "A"
             },
             {
@@ -1199,7 +1810,7 @@
                 "uid": "${DS_INFLUXDB}"
               },
               "hide": true,
-              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == ${disk:doublequote} and r._field == \"used_space\" and r.Hostname == ${Host:doublequote})\n  |> toFloat()\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Used space\"}))\n  |> aggregateWindow(every: 1m, fn: mean)\n",
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"disk_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"disk_used_space\")\n  |> filter(fn: (r) => r[\"device\"] == ${disk:doublequote})  \n  |> toFloat()\n  |> map(fn: (r) => ({_value: r[\"_value\"], _time: r._time, _field: \"Used space\"}))\n  |> aggregateWindow(every: 1m, fn: mean)",
               "refId": "B"
             },
             {
@@ -1223,124 +1834,380 @@
       "type": "row"
     },
     {
-      "collapsed": false,
+      "collapsed": true,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 43
+        "y": 4
       },
       "id": 20,
-      "panels": [],
+      "panels": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 10,
+                "gradientMode": "opacity",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineStyle": {
+                  "fill": "solid"
+                },
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "Bps"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 5
+          },
+          "id": 23,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"net_interface_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"net_bytes_sent\")\n  |> filter(fn: (r) => r[\"interface\"] == ${interface:doublequote})\n  |> map(fn: (r) => ({_value: r[\"_value\"], _time: r._time, _field: \"Upload speed\"}))\n  |> derivative(unit: 1s)\n",
+              "refId": "Uplink"
+            },
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": false,
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"net_interface_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"net_bytes_recv\")\n  |> filter(fn: (r) => r[\"interface\"] == ${interface:doublequote})\n  |> map(fn: (r) => ({_value: r[\"_value\"], _time: r._time, _field: \"Download speed\"}))\n  |> derivative(unit: 1s)\n",
+              "refId": "Downlink"
+            }
+          ],
+          "title": "Network interface utilization",
+          "type": "timeseries"
+        }
+      ],
       "repeat": "interface",
       "repeatDirection": "h",
       "title": "Network Interface $interface",
       "type": "row"
     },
     {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS_INFLUXDB}"
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 5
       },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
+      "id": 30,
+      "panels": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
           },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "opacity",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "fixedColor": "dark-blue",
+                "mode": "fixed"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 16,
+                "gradientMode": "opacity",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineStyle": {
+                  "fill": "solid"
+                },
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "linearThreshold": 5,
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "yellow",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "decbytes"
             },
-            "lineInterpolation": "linear",
-            "lineStyle": {
-              "fill": "solid"
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 13,
+            "w": 12,
+            "x": 0,
+            "y": 6
+          },
+          "id": 31,
+          "options": {
+            "legend": {
+              "calcs": [
+                "lastNotNull",
+                "min",
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
             },
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
             }
           },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
+          "pluginVersion": "9.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": false,
+              "query": "container_name = from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"docker_container_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"container_name\")\n  |> filter(fn: (r) => r[\"_value\"] == ${container:doublequote})\n  |> map(fn: (r) => ({ \"name\": r[\"_value\"], \"container_id\": r[\"container_id\"]}))\n  \n\ncontainer_memory_usage = from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"docker_container_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"container_memory_usage\")\n  |> map(fn: (r) => ({ \"memory_usage\": r[\"_value\"], time: r._time, \"container_id\": r[\"container_id\"]}))\n\njoined = join(\n  tables: {a: container_name, b: container_memory_usage},\n  on: [\"container_id\"]\n)\njoined\n  |> keep(columns: [\"name\", \"memory_usage\", \"container_id\", \"time\"])\n  |> map(fn: (r) => ({ \"RSS memory used\": r[\"memory_usage\"], time: r.time, \"name\": r[\"name\"]}))",
+              "refId": "B"
+            }
+          ],
+          "title": "Container's memory usage",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "fixedColor": "green",
+                "mode": "fixed"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 16,
+                "gradientMode": "opacity",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineStyle": {
+                  "fill": "solid"
+                },
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "linearThreshold": 5,
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "yellow",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "binBps"
+            },
+            "overrides": [
               {
-                "color": "green"
+                "matcher": {
+                  "id": "byName",
+                  "options": "Container download"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "yellow",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
               },
               {
-                "color": "red",
-                "value": 80
+                "matcher": {
+                  "id": "byName",
+                  "options": "Container upload"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "purple",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
               }
             ]
           },
-          "unit": "Bps"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 24,
-        "x": 0,
-        "y": 44
-      },
-      "id": 23,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_INFLUXDB}"
+          "gridPos": {
+            "h": 13,
+            "w": 12,
+            "x": 12,
+            "y": 6
           },
-          "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == ${interface:doublequote} and r._field == \"bytes_sent\" and r.Hostname == ${Host:doublequote})\n  |> toFloat()\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Uplink utilization\"}))\n  |> derivative(unit: 1s)\n\n\n",
-          "refId": "Uplink"
-        },
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "${DS_INFLUXDB}"
+          "id": 37,
+          "options": {
+            "legend": {
+              "calcs": [
+                "lastNotNull",
+                "min",
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
           },
-          "hide": false,
-          "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == ${interface:doublequote} and r._field == \"bytes_recv\" and r.Hostname == ${Host:doublequote})\n  |> toFloat()\n  |> map(fn: (r) => ({_value: r._value, _time: r._time, _field: \"Downlink utilization\"}))\n  |> derivative(unit: 1s)\n\n\n",
-          "refId": "Downlink"
+          "pluginVersion": "9.5.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": false,
+              "query": "container_name = from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"docker_container_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"container_name\")\n  |> filter(fn: (r) => r[\"_value\"] == ${container:doublequote})\n  |> map(fn: (r) => ({ \"name\": r[\"_value\"], \"container_id\": r[\"container_id\"]}))\n  \ncontainer_network_rx = from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"docker_container_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"container_rx_bytes\")\n  |> map(fn: (r) => ({ \"rx_bytes\": r[\"_value\"], time: r._time, \"container_id\": r[\"container_id\"]}))\n  \njoined = join(tables: {a: container_name, b: container_network_rx}, on: [\"container_id\"])\njoined\n  |> sort(columns: [\"time\"])\n  |> keep(columns: [\"name\", \"rx_bytes\", \"time\"])\n  |> derivative(unit: 1s, nonNegative: true, columns: [\"rx_bytes\"], timeColumn: \"time\")\n  |> map(fn: (r) => ({ \"Container download\": r[\"rx_bytes\"], _time: r.time, \"name\": r[\"name\"]}))",
+              "refId": "B"
+            },
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "${DS_INFLUXDB}"
+              },
+              "hide": false,
+              "query": "container_name = from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"docker_container_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"container_name\")\n  |> filter(fn: (r) => r[\"_value\"] == ${container:doublequote})\n  |> map(fn: (r) => ({ \"name\": r[\"_value\"], \"container_id\": r[\"container_id\"]}))\n  \ncontainer_network_tx = from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"docker_container_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"container_tx_bytes\")\n  |> map(fn: (r) => ({ \"tx_bytes\": r[\"_value\"], time: r._time, \"container_id\": r[\"container_id\"]}))\n  \njoined = join(tables: {a: container_name, b: container_network_tx}, on: [\"container_id\"])\njoined\n  |> sort(columns: [\"time\"])\n  |> keep(columns: [\"name\", \"tx_bytes\", \"time\"])\n  |> derivative(unit: 1s, nonNegative: true, columns: [\"tx_bytes\"], timeColumn: \"time\")\n  |> map(fn: (r) => ({ \"Container upload\": r[\"tx_bytes\"], _time: r.time, \"name\": r[\"name\"]}))",
+              "refId": "A"
+            }
+          ],
+          "title": "Container's network activity",
+          "type": "timeseries"
         }
       ],
-      "title": "Network interface utilization",
-      "type": "timeseries"
+      "repeat": "container",
+      "repeatDirection": "h",
+      "title": "Container - $container",
+      "type": "row"
     }
   ],
-  "refresh": "",
+  "refresh": false,
   "revision": 1,
   "schemaVersion": 38,
   "style": "dark",
@@ -1354,14 +2221,14 @@
           "type": "influxdb",
           "uid": "${DS_INFLUXDB}"
         },
-        "definition": "import \"influxdata/influxdb/schema\"\n\nschema.tagValues(bucket: v.defaultBucket, tag: \"Hostname\")",
+        "definition": "import \"influxdata/influxdb/schema\"\n\nschema.tagValues(bucket: v.defaultBucket, tag: \"hostname\")",
         "description": "Query influx db for tags that containes hostname",
         "hide": 0,
         "includeAll": true,
         "multi": true,
-        "name": "Host",
+        "name": "host",
         "options": [],
-        "query": "import \"influxdata/influxdb/schema\"\n\nschema.tagValues(bucket: v.defaultBucket, tag: \"Hostname\")",
+        "query": "import \"influxdata/influxdb/schema\"\n\nschema.tagValues(bucket: v.defaultBucket, tag: \"hostname\")",
         "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
@@ -1375,16 +2242,16 @@
           "type": "influxdb",
           "uid": "${DS_INFLUXDB}"
         },
-        "definition": "from(bucket: v.defaultBucket)\n  |> range(start: -6h)\n  |> keys()\n  |> filter(fn: (r) => r.Hostname == ${Host:doublequote})\n  |> map(fn: (r) => ({ measurement: r._measurement }))\n",
+        "definition": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"disk_metrics\")\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> map(fn: (r) => ({ devices: r[\"device\"] }))\n",
         "hide": 0,
         "includeAll": true,
         "label": "Disk",
         "multi": true,
         "name": "disk",
         "options": [],
-        "query": "from(bucket: v.defaultBucket)\n  |> range(start: -6h)\n  |> keys()\n  |> filter(fn: (r) => r.Hostname == ${Host:doublequote})\n  |> map(fn: (r) => ({ measurement: r._measurement }))\n",
+        "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"disk_metrics\")\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> map(fn: (r) => ({ devices: r[\"device\"] }))\n",
         "refresh": 1,
-        "regex": "^\\/dev.*|^[A-Za-z]::.*",
+        "regex": "",
         "skipUrlSync": false,
         "sort": 0,
         "type": "query"
@@ -1395,7 +2262,7 @@
           "type": "influxdb",
           "uid": "${DS_INFLUXDB}"
         },
-        "definition": "from(bucket: v.defaultBucket)\n  |> range(start: -6h)\n  |> filter(fn: (r) => r.Hostname == ${Host:doublequote} and r._field == \"bytes_recv\" and r._value != 0)\n  |> map(fn: (r) => ({ measurement: r._measurement }))\n",
+        "definition": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"net_interface_metrics\")\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_field\"] == \"net_bytes_recv\" and r[\"_value\"] >0 )\n  |> map(fn: (r) => ({ device: r[\"interface\"] }))\n",
         "description": "Return all hosts interfeces, that've got at least 1 byte received ",
         "hide": 0,
         "includeAll": true,
@@ -1403,9 +2270,43 @@
         "multi": true,
         "name": "interface",
         "options": [],
-        "query": "from(bucket: v.defaultBucket)\n  |> range(start: -6h)\n  |> filter(fn: (r) => r.Hostname == ${Host:doublequote} and r._field == \"bytes_recv\" and r._value != 0)\n  |> map(fn: (r) => ({ measurement: r._measurement }))\n",
+        "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"net_interface_metrics\")\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_field\"] == \"net_bytes_recv\" and r[\"_value\"] >0 )\n  |> map(fn: (r) => ({ device: r[\"interface\"] }))\n",
         "refresh": 1,
-        "regex": "^network.net_.*",
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {},
+        "definition": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"docker_container_metrics\")\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_field\"] == \"container_name\")\n  |> map(fn: (r) => ({ containers: r[\"_value\"] }))",
+        "description": "List of docker containers",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Containers",
+        "multi": true,
+        "name": "container",
+        "options": [],
+        "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"docker_container_metrics\")\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_field\"] == \"container_name\")\n  |> map(fn: (r) => ({ containers: r[\"_value\"] }))",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {},
+        "definition": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"docker_image_metrics\")\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_field\"] == \"image_name\")\n  |> map(fn: (r) => ({ containers: r[\"_value\"] }))",
+        "description": "List of docker images",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Images",
+        "multi": false,
+        "name": "images",
+        "options": [],
+        "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"docker_image_metrics\")\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_field\"] == \"image_name\")\n  |> map(fn: (r) => ({ containers: r[\"_value\"] }))",
+        "refresh": 1,
+        "regex": "",
         "skipUrlSync": false,
         "sort": 0,
         "type": "query"
@@ -1413,13 +2314,13 @@
     ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Python monitoring agent",
   "uid": "cs3HxrE4kl",
-  "version": 3,
+  "version": 17,
   "weekStart": ""
 }
