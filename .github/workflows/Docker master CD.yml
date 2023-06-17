@@ -2,7 +2,7 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "master", "develop" ]
+    branches: [ "master" ]
 
 jobs:
 
@@ -39,7 +39,7 @@ jobs:
             push: true
             context: ./docker/agent
             tags: |
-              ghcr.io/szymonrysztof/python-monitoring-agent:develop-latest
+              ghcr.io/szymonrysztof/python-monitoring-agent:latest
               ghcr.io/szymonrysztof/python-monitoring-agent:${{ steps.date.outputs.current }}
 
         - name: Build and push master
