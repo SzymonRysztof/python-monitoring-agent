@@ -1,7 +1,11 @@
 import setuptools
 
-with open("README.md", "r") as description:
-    long_description_text = description.read()
+
+try:
+    with open("README.md", "r") as description:
+        long_description_text = description.read()
+except FileNotFoundError:
+    long_description_text = "Couldn't find README.md"
 
 setuptools.setup(
     name="python_monitoring_agent",
