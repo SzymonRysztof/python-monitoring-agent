@@ -33,7 +33,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "9.5.1"
+      "version": "10.0.1"
     },
     {
       "type": "datasource",
@@ -111,8 +111,7 @@
                 "mode": "percentage",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -154,7 +153,7 @@
             },
             "textMode": "auto"
           },
-          "pluginVersion": "9.5.1",
+          "pluginVersion": "10.0.1",
           "targets": [
             {
               "datasource": {
@@ -225,8 +224,7 @@
                 "mode": "percentage",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -268,7 +266,7 @@
             },
             "textMode": "auto"
           },
-          "pluginVersion": "9.5.1",
+          "pluginVersion": "10.0.1",
           "targets": [
             {
               "datasource": {
@@ -330,8 +328,7 @@
                 "mode": "percentage",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -373,7 +370,7 @@
             },
             "textMode": "value_and_name"
           },
-          "pluginVersion": "9.5.1",
+          "pluginVersion": "10.0.1",
           "targets": [
             {
               "datasource": {
@@ -453,8 +450,7 @@
                 "mode": "percentage",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -584,8 +580,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -709,8 +704,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -888,8 +882,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -1074,8 +1067,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "semi-dark-blue",
-                    "value": null
+                    "color": "semi-dark-blue"
                   },
                   {
                     "color": "red",
@@ -1098,8 +1090,7 @@
                       "mode": "absolute",
                       "steps": [
                         {
-                          "color": "green",
-                          "value": null
+                          "color": "green"
                         },
                         {
                           "color": "red",
@@ -1116,7 +1107,7 @@
             "h": 12,
             "w": 12,
             "x": 0,
-            "y": 9
+            "y": 3
           },
           "id": 26,
           "options": {
@@ -1135,7 +1126,7 @@
             "text": {},
             "valueMode": "color"
           },
-          "pluginVersion": "9.5.1",
+          "pluginVersion": "10.0.1",
           "targets": [
             {
               "datasource": {
@@ -1187,8 +1178,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "purple",
-                    "value": null
+                    "color": "purple"
                   }
                 ]
               },
@@ -1213,7 +1203,7 @@
             "h": 11,
             "w": 6,
             "x": 12,
-            "y": 9
+            "y": 3
           },
           "id": 27,
           "options": {
@@ -1230,7 +1220,7 @@
             },
             "textMode": "auto"
           },
-          "pluginVersion": "9.5.1",
+          "pluginVersion": "10.0.1",
           "targets": [
             {
               "datasource": {
@@ -1264,8 +1254,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "blue",
-                    "value": null
+                    "color": "blue"
                   }
                 ]
               },
@@ -1290,7 +1279,7 @@
             "h": 7,
             "w": 6,
             "x": 18,
-            "y": 9
+            "y": 3
           },
           "id": 28,
           "options": {
@@ -1307,7 +1296,7 @@
             },
             "textMode": "auto"
           },
-          "pluginVersion": "9.5.1",
+          "pluginVersion": "10.0.1",
           "targets": [
             {
               "datasource": {
@@ -1340,8 +1329,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1356,7 +1344,7 @@
             "h": 4,
             "w": 6,
             "x": 18,
-            "y": 16
+            "y": 10
           },
           "id": 29,
           "options": {
@@ -1373,7 +1361,7 @@
             },
             "textMode": "value"
           },
-          "pluginVersion": "9.5.1",
+          "pluginVersion": "10.0.1",
           "targets": [
             {
               "datasource": {
@@ -1416,8 +1404,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1432,7 +1419,7 @@
             "h": 5,
             "w": 2,
             "x": 0,
-            "y": 19
+            "y": 4
           },
           "id": 12,
           "options": {
@@ -1449,7 +1436,7 @@
             },
             "textMode": "auto"
           },
-          "pluginVersion": "9.5.1",
+          "pluginVersion": "10.0.1",
           "targets": [
             {
               "datasource": {
@@ -1478,8 +1465,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1494,7 +1480,7 @@
             "h": 5,
             "w": 2,
             "x": 2,
-            "y": 19
+            "y": 4
           },
           "id": 13,
           "options": {
@@ -1511,7 +1497,7 @@
             },
             "textMode": "auto"
           },
-          "pluginVersion": "9.5.1",
+          "pluginVersion": "10.0.1",
           "targets": [
             {
               "datasource": {
@@ -1574,8 +1560,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1591,7 +1576,7 @@
             "h": 9,
             "w": 20,
             "x": 4,
-            "y": 19
+            "y": 4
           },
           "id": 16,
           "options": {
@@ -1612,7 +1597,7 @@
                 "type": "influxdb",
                 "uid": "${DS_INFLUXDB}"
               },
-              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"disk_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"disk_total_space\")\n  |> map(fn: (r) => ({_value: r[\"_value\"], _time: r._time, _field: \"Total space\"}))",
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"disk_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"disk_total_space\")\n  |> filter(fn: (r) => r[\"device\"] == ${disk:doublequote})\n  |> map(fn: (r) => ({_value: r[\"_value\"], _time: r._time, _field: \"Total space\"}))",
               "refId": "total"
             },
             {
@@ -1621,7 +1606,7 @@
                 "uid": "${DS_INFLUXDB}"
               },
               "hide": false,
-              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"disk_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"disk_used_space\")\n  |> map(fn: (r) => ({_value: r[\"_value\"], _time: r._time, _field: \"Used space\"}))",
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"disk_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"disk_used_space\")\n  |> filter(fn: (r) => r[\"device\"] == ${disk:doublequote})\n  |> map(fn: (r) => ({_value: r[\"_value\"], _time: r._time, _field: \"Used space\"}))",
               "refId": "used"
             },
             {
@@ -1630,7 +1615,7 @@
                 "uid": "${DS_INFLUXDB}"
               },
               "hide": false,
-              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"disk_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"disk_free_space\")\n  |> map(fn: (r) => ({_value: r[\"_value\"], _time: r._time, _field: \"Free space\"}))",
+              "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_measurement\"] == \"disk_metrics\")\n  |> filter(fn: (r) => r[\"_field\"] == \"disk_free_space\")\n  |> filter(fn: (r) => r[\"device\"] == ${disk:doublequote})\n  |> map(fn: (r) => ({_value: r[\"_value\"], _time: r._time, _field: \"Free space\"}))",
               "refId": "free"
             }
           ],
@@ -1652,8 +1637,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1668,7 +1652,7 @@
             "h": 4,
             "w": 4,
             "x": 0,
-            "y": 24
+            "y": 9
           },
           "id": 14,
           "options": {
@@ -1685,7 +1669,7 @@
             },
             "textMode": "auto"
           },
-          "pluginVersion": "9.5.1",
+          "pluginVersion": "10.0.1",
           "targets": [
             {
               "datasource": {
@@ -1752,8 +1736,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "#EAB839",
@@ -1773,7 +1756,7 @@
             "h": 9,
             "w": 24,
             "x": 0,
-            "y": 28
+            "y": 13
           },
           "id": 18,
           "options": {
@@ -1839,7 +1822,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 4
+        "y": 5
       },
       "id": 20,
       "panels": [
@@ -1892,8 +1875,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   },
                   {
                     "color": "red",
@@ -1909,7 +1891,7 @@
             "h": 8,
             "w": 24,
             "x": 0,
-            "y": 5
+            "y": 6
           },
           "id": 23,
           "options": {
@@ -1958,7 +1940,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 5
+        "y": 8
       },
       "id": 30,
       "panels": [
@@ -2013,8 +1995,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "yellow",
-                    "value": null
+                    "color": "yellow"
                   }
                 ]
               },
@@ -2112,8 +2093,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "yellow",
-                    "value": null
+                    "color": "yellow"
                   }
                 ]
               },
@@ -2207,7 +2187,7 @@
       "type": "row"
     }
   ],
-  "refresh": false,
+  "refresh": "",
   "revision": 1,
   "schemaVersion": 38,
   "style": "dark",
@@ -2224,8 +2204,8 @@
         "definition": "import \"influxdata/influxdb/schema\"\n\nschema.tagValues(bucket: v.defaultBucket, tag: \"hostname\")",
         "description": "Query influx db for tags that containes hostname",
         "hide": 0,
-        "includeAll": true,
-        "multi": true,
+        "includeAll": false,
+        "multi": false,
         "name": "host",
         "options": [],
         "query": "import \"influxdata/influxdb/schema\"\n\nschema.tagValues(bucket: v.defaultBucket, tag: \"hostname\")",
@@ -2279,6 +2259,10 @@
       },
       {
         "current": {},
+        "datasource": {
+          "type": "influxdb",
+          "uid": "${DS_INFLUXDB}"
+        },
         "definition": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"docker_container_metrics\")\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_field\"] == \"container_name\")\n  |> map(fn: (r) => ({ containers: r[\"_value\"] }))",
         "description": "List of docker containers",
         "hide": 0,
@@ -2296,6 +2280,10 @@
       },
       {
         "current": {},
+        "datasource": {
+          "type": "influxdb",
+          "uid": "${DS_INFLUXDB}"
+        },
         "definition": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"docker_image_metrics\")\n  |> filter(fn: (r) => r[\"hostname\"] == ${host:doublequote})\n  |> filter(fn: (r) => r[\"_field\"] == \"image_name\")\n  |> map(fn: (r) => ({ containers: r[\"_value\"] }))",
         "description": "List of docker images",
         "hide": 0,
@@ -2321,6 +2309,6 @@
   "timezone": "",
   "title": "Python monitoring agent",
   "uid": "cs3HxrE4kl",
-  "version": 17,
+  "version": 4,
   "weekStart": ""
 }
